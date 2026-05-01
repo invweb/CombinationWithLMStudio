@@ -1,15 +1,23 @@
 package com.application.combinationwithlmstudio.ui.viewmodel
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.combinationwithlmstudio.data.model.ChatState
 import com.application.combinationwithlmstudio.data.model.Message
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.IOException
+
+// Замените IP на адрес вашего ПК в локальной сети
+private const val LOCAL_API_URL = "http://192.168.1.10:1234/v1/chat/completions"
 
 class ChatViewModel : ViewModel() {
     private val _state = mutableStateOf(ChatState())
-    val state: State<ChatState> = _state.asStateFlow()
+    val state: Unit = _state.asStateFlow()
 
     private val client = OkHttpClient()
 
@@ -53,7 +61,7 @@ class ChatViewModel : ViewModel() {
         return try {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                val responseBody = response.body?.string() ?: "Пустой ответ"
+                val responseBody = response.body.string() ?: "Пустой ответ"
                 // Парсим JSON, чтобы извлечь текст ответа
                 parseResponse(responseBody)
             }
@@ -76,4 +84,8 @@ class ChatViewModel : ViewModel() {
             "Ошибка парсинга: ${e.message}"
         }
     }
+}
+
+private fun MutableState<ChatState>.asStateFlow() {
+    TODO("Not yet implemented")
 }
