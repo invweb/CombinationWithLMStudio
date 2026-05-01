@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     // define a BOM and its version
     implementation(platform(libs.okhttp.bom))
-
+    implementation(libs.okhttp3.okhttp)
     // define any required OkHttp artifacts without version
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
