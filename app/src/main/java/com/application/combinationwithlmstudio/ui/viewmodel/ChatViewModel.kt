@@ -12,7 +12,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
-// Замените IP на адрес вашего ПК в локальной сети
+// Replace the IP with the address of your PC on the local network
 private const val LOCAL_API_URL = "http://192.168.1.10:1234/v1/chat/completions"
 
 class ChatViewModel : ViewModel() {
@@ -22,7 +22,7 @@ class ChatViewModel : ViewModel() {
     private val client = OkHttpClient()
 
     fun sendMessage(userMessage: String) {
-        // Добавляем сообщение пользователя
+        // Adding the user's message
         _state.value = _state.value.copy(
             messages = _state.value.messages + Message(userMessage, true),
             isLoading = true,
@@ -62,7 +62,7 @@ class ChatViewModel : ViewModel() {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
                 val responseBody = response.body.string() ?: "Пустой ответ"
-                // Парсим JSON, чтобы извлечь текст ответа
+                // Parse the JSON to extract the response text
                 parseResponse(responseBody)
             }
         } catch (e: Exception) {
@@ -72,7 +72,7 @@ class ChatViewModel : ViewModel() {
 
     private fun parseResponse(jsonResponse: String): String {
         return try {
-            // Упрощённый парсинг — в реальном коде используйте JSON‑библиотеку
+            // Simplified parsing — use the JSON library in real code
             val start = jsonResponse.indexOf("\"content\":\"") + 10
             val end = jsonResponse.indexOf("\"", start)
             if (start in 1..<end) {
