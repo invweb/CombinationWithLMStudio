@@ -57,7 +57,7 @@ dependencies {
     // define any required OkHttp artifacts without version
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.0")
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
