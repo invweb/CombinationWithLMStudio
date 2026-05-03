@@ -13,7 +13,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
 // Replace the IP with the address of your PC on the local network
-private const val LOCAL_API_URL = "http://192.168.1.10:1234/v1/chat/completions"
+private const val LOCAL_API_URL = "http://localhost:5000/v1/chat/completions"
 
 class ChatViewModel : ViewModel() {
     private val _state = mutableStateOf(ChatState())

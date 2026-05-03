@@ -56,17 +56,17 @@ fun ChatScreen(
 
 @Composable
 fun MessageBubble(message: Message) {
-    val alignment = if (message.isUser) {
-        Alignment.End
+    val arrangement = if (message.isUser) {
+        Arrangement.End
     } else {
-        Alignment.Start
+        Arrangement.Start
     }
 
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        contentAlignment = alignment as Alignment
+        horizontalArrangement = arrangement as Arrangement.Horizontal
     ) {
         Surface(
             color = if (message.isUser) {
