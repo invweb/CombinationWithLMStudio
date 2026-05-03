@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.combinationwithlmstudio.data.model.ChatState
 import com.application.combinationwithlmstudio.data.model.Message
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -12,8 +13,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
-// Replace the IP with the address of your PC on the local network
-private const val LOCAL_API_URL = "http://localhost:5000/v1/chat/completions"
+private const val LOCAL_API_URL = "http://192.168.0.9:5000/v1/chat/completions"
 
 class ChatViewModel : ViewModel() {
     private val _state = mutableStateOf(ChatState())
@@ -30,7 +30,7 @@ class ChatViewModel : ViewModel() {
             error = null
         )
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response = getLlmResponse(userMessage)
             _state.value = _state.value.copy(
                 messages = _state.value.messages + Message(response, false),
@@ -42,7 +42,7 @@ class ChatViewModel : ViewModel() {
     private suspend fun getLlmResponse(prompt: String): String {
         val jsonBody = """
             {
-              "model": "MODEL_NAME",
+              "model": "google/gemma-4-e4b",
               "messages": [
                 {"role": "system", "content": "Ты полезный ассистент."},
                 {"role": "user", "content": "$prompt"}
