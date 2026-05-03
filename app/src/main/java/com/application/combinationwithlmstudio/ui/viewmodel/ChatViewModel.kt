@@ -13,7 +13,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 
-private const val LOCAL_API_URL = "http://192.168.0.9:5000/v1/chat/completions"
+private const val LOCAL_API_URL = "http://localhost:1234/api/v1/chat"
 
 class ChatViewModel : ViewModel() {
     private val _state = mutableStateOf(ChatState())
