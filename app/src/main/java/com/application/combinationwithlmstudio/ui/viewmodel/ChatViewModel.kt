@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.application.combinationwithlmstudio.data.model.ChatState
 import com.application.combinationwithlmstudio.data.model.Message
+import com.application.combinationwithlmstudio.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -12,8 +13,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
-
-private const val LOCAL_API_URL = "http://localhost:1234/api/v1/chat"
 
 class ChatViewModel : ViewModel() {
     private val _state = mutableStateOf(ChatState())
@@ -55,7 +54,7 @@ class ChatViewModel : ViewModel() {
         val requestBody = jsonBody.toRequestBody("application/json".toMediaTypeOrNull())
 
         val request = Request.Builder()
-            .url(LOCAL_API_URL)
+            .url(Constants.LOCAL_API_URL)
             .post(requestBody)
             .build()
 
