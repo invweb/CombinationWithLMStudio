@@ -2,6 +2,8 @@ package com.application.combinationwithlmstudio.data.remote
 
 import com.application.combinationwithlmstudio.data.model.ApiResponse
 import com.application.combinationwithlmstudio.data.model.Message
+import com.application.combinationwithlmstudio.utils.Constants
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -12,7 +14,7 @@ import java.io.IOException
 
 class LlmApiService(
     private val client: OkHttpClient,
-    private val baseUrl: String = "http://192.168.0.9:1234"
+    private val baseUrl: String = Constants.BASE_URL
 ) {
 
     suspend fun getChatResponse(
@@ -47,18 +49,28 @@ class LlmApiService(
         temperature: Double
     ): String {
         return """
+//            {
+//              "model": "$modelName",
+//              "messages": [
+////                {"role": "system", "content": "Ты полезный ассистент."},
+////                {"role": "user",
+////                  "input": "Напиши короткое стихотворение про кота.",
+////                  "temperature": 0.7,
+////                  "max_tokens": 150
+////                }
+//              ],
+//              "temperature": $temperature,
+//              "stream": false,
+//              "max_tokens": 1000
+//            }
             {
-              "model": "$modelName",
+              "model": "google/gemma-4-e4b",
               "messages": [
-//                {"role": "system", "content": "Ты полезный ассистент."},
-//                {"role": "user",
-//                  "input": "Напиши короткое стихотворение про кота.",
-//                  "temperature": 0.7,
-//                  "max_tokens": 150
-//                }
+                {"role": "system", "input": "Ты полезный ассистент."},
+                {"role": "user", "input": "$userMessage"}
               ],
-              "temperature": $temperature,
-              "stream": false,
+              "temperature": 0.7,
+              "stream": falseб
               "max_tokens": 1000
             }
         """.trimIndent()

@@ -1,4 +1,5 @@
 package com.application.combinationwithlmstudio.ui.viewmodel
+
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -40,26 +41,23 @@ class ChatViewModel : ViewModel() {
 
     private suspend fun getLlmResponse(prompt: String): String {
         val jsonBody = """
-            {
-              "model": "google/gemma-4-e4b",
-              "messages": [
-                {"role": "system", "input": "Ты полезный ассистент."},
-                {"role": "user", "input": "$prompt"}
-                {"role": "user", "input": "Как приготовить омлет?"},
-                {"role": "assistant","input": "Чтобы приготовить омлет,
-                 выполните следующие шаги:\n\n1.
-                  Разбейте 2 яйца в миску.\n2. 
-                  Добавьте 50 мл молока.\n3. 
-                  Взбейте смесь венчиком до однородности.\n4.
-                   Разогрейте сковороду, добавьте немного масла.\n5.
-                    Вылейте смесь на сковороду.\n6.
-                     Готовьте на среднем огне 3–4 минуты, пока омлет не схватится.
-                     "}
-              ],
-              "temperature": 0.7,
-              "stream": false
-            }
+                        {
+                          "model": "google/gemma-4-e4b",
+                          "messages": [
+                            {"role": "system", "input": "Ты полезный ассистент."},
+                            {"content": "Отвечай кратко и по делу, используй русский язык."},
+                            {
+                              "role": "user",
+                              "content": "Что такое авиация? Дай определение в одном предложении."
+                            }
+                          ],
+                          "temperature": 0.7,
+                          "max_tokens": 100,
+                          "top_p": 0.9,
+                          "stream": false
+                        }
         """.trimIndent()
+
 
         val requestBody = jsonBody.toRequestBody("application/json".toMediaTypeOrNull())
 
