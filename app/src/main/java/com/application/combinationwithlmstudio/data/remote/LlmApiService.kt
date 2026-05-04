@@ -12,12 +12,12 @@ import java.io.IOException
 
 class LlmApiService(
     private val client: OkHttpClient,
-    private val baseUrl: String = "http://192.168.1.10:1234"
+    private val baseUrl: String = "http://192.168.0.9:1234"
 ) {
 
     suspend fun getChatResponse(
         userMessage: String,
-        modelName: String = "MODEL_NAME",
+        modelName: String = "google/gemma-4-e4b",
         temperature: Double = 0.7
     ): Result<ApiResponse> = withContext(Dispatchers.IO) {
         try {
@@ -29,7 +29,7 @@ class LlmApiService(
                     throw IOException("HTTP error ${response.code}: ${response.message}")
                 }
 
-                val responseBody = response.body?.string()
+                val responseBody = response.body.string()
                     ?: throw IOException("Empty response body")
 
                 // Парсим JSON в модель ApiResponse
@@ -50,8 +50,12 @@ class LlmApiService(
             {
               "model": "$modelName",
               "messages": [
-                {"role": "system", "content": "Ты полезный ассистент."},
-                {"role": "user", "content": "$userMessage"}
+//                {"role": "system", "content": "Ты полезный ассистент."},
+//                {"role": "user",
+//                  "input": "Напиши короткое стихотворение про кота.",
+//                  "temperature": 0.7,
+//                  "max_tokens": 150
+//                }
               ],
               "temperature": $temperature,
               "stream": false,
