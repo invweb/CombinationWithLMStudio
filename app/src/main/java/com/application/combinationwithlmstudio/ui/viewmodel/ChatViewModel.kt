@@ -46,19 +46,19 @@ class ChatViewModel : ViewModel() {
 //        val jsonBody = """
 //                        {
 //                          "model": "google/gemma-4-e4b",
-//                          "input": "Ты полезный ассистент.",
+//                          "input": "You are a useful assistant.",
 //                          "messages": [
 //                            {
 //                                "role": "system",
-//                                "input": "Ты полезный ассистент."
+//                                "input": "You are a useful assistant."
 //                            },
 //                            {
 //                                "role": "system",
-//                                "input": "Отвечай кратко и по делу, используй русский язык."
+//                                "input": "Answer briefly and to the point."
 //                            },
 //                            {
 //                                "role": "user",
-//                                "input": "Что такое авиация? Дай определение в одном предложении."
+//                                "input": "What is aviation? Define it in one sentence."
 //                            }
 //                          ],
 //                          "temperature": 0.7,
@@ -70,7 +70,7 @@ class ChatViewModel : ViewModel() {
         val jsonBody = """
                         {
                           "model": "google/gemma-4-e4b",
-                          "input": "Ты полезный ассистент. Что такое авиация? Дай определение в одном предложении."
+                          "input": "You're a useful assistant. What is aviation? Define it in one sentence."
                         }
         """.trimIndent()
 
@@ -90,7 +90,7 @@ class ChatViewModel : ViewModel() {
                 parseResponse(responseBody)
             }
         } catch (e: Exception) {
-            "Ошибка: ${e.message}"
+            "Error: ${e.message}"
         }
     }
 
@@ -102,10 +102,10 @@ class ChatViewModel : ViewModel() {
             if (start in 1..<end) {
                 jsonResponse.substring(start, end)
             } else {
-                "Не удалось извлечь ответ"
+                "Couldn't extract the response"
             }
         } catch (e: Exception) {
-            "Ошибка парсинга: ${e.message}"
+            "Parsing error: ${e.message}"
         }
     }
 }
