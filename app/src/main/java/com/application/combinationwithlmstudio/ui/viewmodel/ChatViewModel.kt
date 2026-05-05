@@ -40,21 +40,37 @@ class ChatViewModel : ViewModel() {
     }
 
     private suspend fun getLlmResponse(prompt: String): String {
+//        http://192.168.0.10:1234/api/v1/models - GET - list of available models
+//        http://192.168.0.10:1234/api/v1/chat - POST -
+
+//        val jsonBody = """
+//                        {
+//                          "model": "google/gemma-4-e4b",
+//                          "input": "Ты полезный ассистент.",
+//                          "messages": [
+//                            {
+//                                "role": "system",
+//                                "input": "Ты полезный ассистент."
+//                            },
+//                            {
+//                                "role": "system",
+//                                "input": "Отвечай кратко и по делу, используй русский язык."
+//                            },
+//                            {
+//                                "role": "user",
+//                                "input": "Что такое авиация? Дай определение в одном предложении."
+//                            }
+//                          ],
+//                          "temperature": 0.7,
+//                          "top_p": 0.9,
+//                          "stream": false
+//                        }
+//        """.trimIndent()
+
         val jsonBody = """
                         {
                           "model": "google/gemma-4-e4b",
-                          "messages": [
-                            {"role": "system", "input": "Ты полезный ассистент."},
-                            {"content": "Отвечай кратко и по делу, используй русский язык."},
-                            {
-                              "role": "user",
-                              "content": "Что такое авиация? Дай определение в одном предложении."
-                            }
-                          ],
-                          "temperature": 0.7,
-                          "max_tokens": 100,
-                          "top_p": 0.9,
-                          "stream": false
+                          "input": "Ты полезный ассистент. Что такое авиация? Дай определение в одном предложении."
                         }
         """.trimIndent()
 
