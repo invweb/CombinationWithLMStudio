@@ -1,5 +1,6 @@
 package com.application.combinationwithlmstudio.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,6 +30,7 @@ fun ChatScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(state.messages) { message ->
+                Log.d("messages", message.text)
                 MessageBubble(message = message)
             }
         }
@@ -76,6 +78,7 @@ fun MessageBubble(message: Message) {
             },
             shape = MaterialTheme.shapes.medium
         ) {
+            Log.d("Text", message.text)
             Text(
                 text = message.text,
                 color = if (message.isUser) {

@@ -1,5 +1,6 @@
 package com.application.combinationwithlmstudio.ui.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,13 +15,23 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.util.concurrent.TimeUnit
+
 
 class ChatViewModel : ViewModel() {
     private val _state = mutableStateOf(ChatState())
     val state: MutableState<ChatState> = _state
 //    val state: MutableState<ChatState> = _state.asStateFlow()
 
-    private val client = OkHttpClient()
+    private var client : OkHttpClient
+
+    init {
+        val builder = OkHttpClient.Builder()
+        builder.connectTimeout(30, TimeUnit.SECONDS)
+        builder.readTimeout(30, TimeUnit.SECONDS)
+        builder.writeTimeout(30, TimeUnit.SECONDS)
+        client = builder.build()
+    }
 
     fun sendMessage(userMessage: String) {
         // Adding the user's message
@@ -66,11 +77,13 @@ class ChatViewModel : ViewModel() {
 //                          "stream": false
 //                        }
 //        """.trimIndent()
-
+//                          "model": "google/gemma-4-e4b",
+//                          "model": "qwen/qwen3.5-9b",
         val jsonBody = """
                         {
                           "model": "google/gemma-4-e4b",
-                          "input": "You're a useful assistant. What is aviation? Define it in one sentence."
+                          "input": "Ты — опытный программист. Отвечай кратко и по делу.Как отсортировать массив в Kotlin?",
+                          "temperature": 0.3
                         }
         """.trimIndent()
 
@@ -80,6 +93,7 @@ class ChatViewModel : ViewModel() {
         val request = Request.Builder()
             .url(Constants.LOCAL_API_URL)
             .post(requestBody)
+
             .build()
 
         return try {
@@ -87,6 +101,7 @@ class ChatViewModel : ViewModel() {
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
                 val responseBody = response.body.string() ?: "Пустой ответ"
                 // Parse the JSON to extract the response text
+                Log.d("Log", responseBody)
                 parseResponse(responseBody)
             }
         } catch (e: Exception) {
@@ -96,8 +111,8 @@ class ChatViewModel : ViewModel() {
 
     private fun parseResponse(jsonResponse: String): String {
         return try {
-            // Simplified parsing — use the JSON library in real code
-            val start = jsonResponse.indexOf("\"content\":\"") + 10
+            // Simplified parsing — use the JSON library in real code (stopped here)
+            val start = jsonResponse.indexOf("\"content\":") + 10
             val end = jsonResponse.indexOf("\"", start)
             if (start in 1..<end) {
                 jsonResponse.substring(start, end)
