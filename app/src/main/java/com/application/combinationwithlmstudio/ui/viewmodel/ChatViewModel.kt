@@ -102,6 +102,13 @@ class ChatViewModel : ViewModel() {
                 val responseBody = response.body.string() ?: "Пустой ответ"
                 // Parse the JSON to extract the response text
                 Log.d("Log", responseBody)
+
+                _state.value = _state.value.copy(
+                    messages = _state.value.messages + Message(responseBody, true),
+                    isLoading = false,
+                    error = null
+                )
+
                 parseResponse(responseBody)
             }
         } catch (e: Exception) {
@@ -110,6 +117,7 @@ class ChatViewModel : ViewModel() {
     }
 
     private fun parseResponse(jsonResponse: String): String {
+        Log.d("Log jsonResponse", jsonResponse)
         return try {
             // Simplified parsing — use the JSON library in real code (stopped here)
             val start = jsonResponse.indexOf("\"content\":") + 10
