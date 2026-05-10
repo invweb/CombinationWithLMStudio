@@ -1,4 +1,5 @@
 Android project with integration of the AI model google/gemma-4-e4b (via LM Studio). A basic chat interface is implemented: the user enters an arbitrary message, and the system processes the request. The code includes a preset context: the user is positioned as an experienced programmer who needs help sorting an array in Kotlin.
+Cogito ergo sum ...
 
 Server - LmStudio with uploaded model: google-gemma-4-e4b
 ![LmStudio-0](app/src/main/res/drawable/screenshot0.png)
