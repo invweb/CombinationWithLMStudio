@@ -14,6 +14,9 @@ object Constants {
 //    [LM STUDIO SERVER]    ->  POST http://192.168.0.10:1234/v1/chat/completions
 //    [LM STUDIO SERVER]    ->  POST http://192.168.0.10:1234/v1/completions
 //    [LM STUDIO SERVER]    ->  POST http://192.168.0.10:1234/v1/embeddings
+    // TODO: BASE_URL - the address of the computer running LMStudio
+    // make sure that the local network is configured correctly,
+    // allows you to access local IP addresses.
     const val BASE_URL: String = "http://192.168.0.10:1234"
     const val LOCAL_API_URL = "$BASE_URL/api/v1/chat"
     const val LOCAL_MODELS_URL = "$BASE_URL/api/v1/models"
